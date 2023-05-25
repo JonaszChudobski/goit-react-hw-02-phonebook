@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { ContactForm } from './ContactForm';
-import { ContactList } from './ContactList';
-import { Filter } from './Filter';
+import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
 
 export class App extends Component {
   state = {
@@ -20,13 +20,12 @@ export class App extends Component {
     const form = e.currentTarget;
     const { name, number } = this.state;
     const id = nanoid();
-    if (this.state.contacts.find(value => value.name === name)) {
-      alert(`${name} already exists in contacts.`);
-    } else {
-      this.setState({
-        contacts: [...this.state.contacts, { name, number, id }],
-      });
-    }
+    const isExist = this.state.contacts.find(value => value.name === name);
+    isExist
+      ? alert(`${name} already exists in contacts.`)
+      : this.setState(prevState => ({
+          contacts: [...prevState.contacts, { name, number, id }],
+        }));
     form.reset();
   };
 
@@ -37,11 +36,11 @@ export class App extends Component {
     return filtered;
   };
 
-  handleDeleting = e => {
+  handleDelete = e => {
     const nameToDelete = e.target.id;
-    this.setState({
-      contacts: this.state.contacts.filter(name => name.id !== nameToDelete),
-    });
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(name => name.id !== nameToDelete),
+    }));
   };
 
   render() {
@@ -59,7 +58,7 @@ export class App extends Component {
             this.state.contacts,
             this.state.filter
           )}
-          handleDeleting={this.handleDeleting}
+          onDelete={this.handleDelete}
         />
       </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import css from './ContactList.module.css';
 import PropTypes from 'prop-types';
 
-export const ContactList = ({ contacts, handleDeleting }) => {
+export const ContactList = ({ contacts, onDelete }) => {
   return (
     <ul>
       {contacts.map(contact => (
@@ -12,7 +12,7 @@ export const ContactList = ({ contacts, handleDeleting }) => {
             className={css.deleteBtn}
             type="button"
             id={contact.id}
-            onClick={handleDeleting}
+            onClick={onDelete}
           >
             Delete
           </button>
@@ -30,5 +30,5 @@ ContactList.propTypes = {
       id: PropTypes.string,
     })
   ).isRequired,
-  handleDeleting: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
